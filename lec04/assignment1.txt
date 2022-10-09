@@ -1,0 +1,11 @@
+Goal: Write a SFML program that reads in shapes from a config file and draws 
+those shapes to the screen. The shapes will also include an initial velocity.
+
+These shapes will 'bounce' off the edges of the screen.
+
+Rectangle N X Y Vx Vy R G B W H
+Name                      std::string
+Initial Position (X, Y)   float, float
+Initial Velocity (Vx, Vy) float, float
+RGB Color                 int, int, int
+Size (Wdith, Height)      float, float

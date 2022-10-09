@@ -1,0 +1,2 @@
+Window 800 600
+Rectangle RRed 400 300 1 1 255 0 0 10 20
