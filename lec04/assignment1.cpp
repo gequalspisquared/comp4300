@@ -21,11 +21,10 @@ class Rectangle
 
 public:
     Rectangle() {}
-    Rectangle(const sf::RectangleShape& rect, const std::string& name, float x, 
+    Rectangle(const std::string& name, float x, 
               float y, float vx, float vy, int r, int g, int b, float width, 
               float height)
-        : m_rect(rect)
-        , m_name(name)
+        : m_name(name)
         , m_x(x)
         , m_y(y)
         , m_vx(vx)
@@ -36,6 +35,9 @@ public:
         , m_width(width)
         , m_height(height)
     {
+        m_rect.setSize(sf::Vector2f(width, height));
+        m_rect.setFillColor(sf::Color(r, g, b));
+        m_rect.setPosition(m_x, m_y);
     }
     ~Rectangle() {}
 
@@ -43,14 +45,33 @@ public:
     {
         std::cout << m_name << std::endl;
     }
+
+    void printPosition() const
+    {
+        std::cout << "x: "  << m_rect.getPosition().x 
+                  << " y: " << m_rect.getPosition().y << std::endl;
+    }
+
+    void updatePosition(float dt)
+    {
+        m_x += m_vx*dt;
+        m_y -= m_vy*dt; // screen coordinates flipped
+        m_rect.setPosition(m_x, m_y);
+    }
+
+    const sf::RectangleShape& getShape() const
+    {
+        return m_rect;
+    }
 };
 
 class App
 {
     unsigned int m_width = 800;
     unsigned int m_height = 600;
-    std::vector<Rectangle> rectangles;
-    std::vector<sf::CircleShape> circles;
+    std::vector<Rectangle> m_rectangles;
+    std::vector<sf::CircleShape> m_circles;
+    sf::RenderWindow m_window;
 
 public: 
     App() {}
@@ -84,9 +105,8 @@ public:
             {
                 fin >> name >> x >> y >> vx >> vy >> r 
                     >> g >> b >> width >> height;
-                sf::RectangleShape rect;
-                rectangles.push_back(Rectangle(rect, name, x, y, vx, vy, 
-                                               r, g, b, width, height));
+                m_rectangles.push_back(Rectangle(name, x, y, vx, vy, 
+                                                 r, g, b, width, height));
             }
         }
     }
@@ -104,15 +124,51 @@ public:
 
     void printRectangleNames()
     {
-        for (size_t i = 0; i < rectangles.size(); i++)
+        for (size_t i = 0; i < m_rectangles.size(); i++)
         {
-            rectangles[i].printName();
+            m_rectangles[i].printName();
         }
     }
 
-    void createWindow(sf::RenderWindow& window, const std::string& windowName)
+    void createWindow(const std::string& windowName)
     {
-        window.create(sf::VideoMode(m_width, m_height), windowName);
+        m_window.create(sf::VideoMode(m_width, m_height), windowName);
+    }
+
+    void update(float dt)
+    {
+        for (auto& rectangle : m_rectangles)
+        {
+            rectangle.updatePosition(dt);
+        }
+    }
+
+    void draw()
+    {
+        for (auto& rectangle : m_rectangles)
+        {
+            m_window.draw(rectangle.getShape());
+        }
+    }
+
+    void mainLoop()
+    {
+        sf::Clock clock;
+        while (m_window.isOpen())
+        {
+            sf::Event event;
+            while (m_window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                    m_window.close();
+            }
+
+            float dt = clock.restart().asSeconds();
+            update(dt);
+            m_window.clear();
+            draw();
+            m_window.display();
+        }
     }
 };
 
@@ -122,25 +178,12 @@ int main()
     app.printWindowInfo();
     app.printRectangleNames();
 
-    sf::RenderWindow window;
-    app.createWindow(window, "Assignment 1");
+    app.createWindow("Assignment 1");
 
-    sf::CircleShape shape(100.0f);
-    shape.setFillColor(sf::Color::Green);
+    // sf::CircleShape shape(100.0f);
+    // shape.setFillColor(sf::Color::Green);
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
+    app.mainLoop();
 
     return 0;
 }
