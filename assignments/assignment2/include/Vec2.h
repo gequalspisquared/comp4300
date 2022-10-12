@@ -10,11 +10,13 @@ public:
     Vec2();
     Vec2(float xin, float yin);
 
+    // methods
     float mag2() const;
     float mag() const;
 
     void normalize();
 
+    // operator overloading
     bool operator==(const Vec2& rhs) const;
     bool operator!=(const Vec2& rhs) const;
 
@@ -25,7 +27,7 @@ public:
 
     Vec2 operator+(const Vec2& rhs) const;
     Vec2 operator-(const Vec2& rhs) const;
-    Vec2 operator*(float scale) const;
+    Vec2 operator*(float scale) const;      // scaling 
     Vec2 operator/(float scale) const;
 };
 
