@@ -57,7 +57,6 @@ public:
         // reverse direction if going off screen
         int width = windowSize.x;
         int height = windowSize.y;
-        if (m_x + m_width > width || m_x < 0)
         {
             m_vx *= -1;
         }
