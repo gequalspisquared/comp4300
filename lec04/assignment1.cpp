@@ -52,8 +52,21 @@ public:
                   << " y: " << m_rect.getPosition().y << std::endl;
     }
 
-    void updatePosition(float dt)
+    void updatePosition(float dt, const sf::Vector2u& windowSize)
     {
+        // reverse direction if going off screen
+        int width = windowSize.x;
+        int height = windowSize.y;
+        if (m_x + m_width > width || m_x < 0)
+        {
+            m_vx *= -1;
+        }
+        if (m_y + m_height > height || m_y < 0)
+        {
+            m_vy *= -1;
+        }
+
+        // update position
         m_x += m_vx*dt;
         m_y -= m_vy*dt; // screen coordinates flipped
         m_rect.setPosition(m_x, m_y);
@@ -62,6 +75,11 @@ public:
     const sf::RectangleShape& getShape() const
     {
         return m_rect;
+    }
+
+    const sf::Vector2f& getSize() const
+    {
+        return m_rect.getSize();
     }
 };
 
@@ -139,7 +157,7 @@ public:
     {
         for (auto& rectangle : m_rectangles)
         {
-            rectangle.updatePosition(dt);
+            rectangle.updatePosition(dt, m_window.getSize());
         }
     }
 
