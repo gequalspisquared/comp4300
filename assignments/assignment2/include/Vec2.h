@@ -13,6 +13,7 @@ public:
     // methods
     float mag2() const;
     float mag() const;
+    float dist(const Vec2& rhs) const;
 
     void normalize();
 
@@ -24,11 +25,13 @@ public:
 
     void operator+=(const Vec2& rhs);
     void operator-=(const Vec2& rhs);
+    void operator*=(const float scale);
+    void operator/=(const float scale);
 
     Vec2 operator+(const Vec2& rhs) const;
     Vec2 operator-(const Vec2& rhs) const;
-    Vec2 operator*(float scale) const;      // scaling 
-    Vec2 operator/(float scale) const;
+    Vec2 operator*(const float scale) const;      // scaling 
+    Vec2 operator/(const float scale) const;
 };
 
 #endif

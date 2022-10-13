@@ -20,6 +20,13 @@ float Vec2::mag() const
     return sqrtf(mag2());
 }
 
+float Vec2::dist(const Vec2& rhs) const
+{
+    float dx = x - rhs.x;
+    float dy = y - rhs.y;
+    return sqrtf(dx*dx + dy*dy);
+}
+
 void Vec2::normalize()
 {
     float length = mag();
@@ -53,6 +60,18 @@ void Vec2::operator-=(const Vec2& rhs)
     y -= rhs.y;
 }
 
+void Vec2::operator*=(const float scale) 
+{
+    x *= scale;
+    y *= scale;
+}
+
+void Vec2::operator/=(const float scale) 
+{
+    x /= scale;
+    y /= scale;
+}
+
 // dot product
 float Vec2::operator*(const Vec2& rhs) const
 {
@@ -69,12 +88,12 @@ Vec2 Vec2::operator-(const Vec2& rhs) const
     return Vec2(x - rhs.x, y - rhs.y);
 }
 
-Vec2 Vec2::operator*(float scale) const
+Vec2 Vec2::operator*(const float scale) const
 {
     return Vec2(x*scale, y*scale);
 }
 
-Vec2 Vec2::operator/(float scale) const
+Vec2 Vec2::operator/(const float scale) const
 {
     return Vec2(x/scale, y/scale);
 }
