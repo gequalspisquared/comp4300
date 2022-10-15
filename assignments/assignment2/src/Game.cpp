@@ -14,6 +14,7 @@ Game::Game(const std::string& configFile)
 
 void Game::run()
 {
+    spawnPlayer();
 
     // TODO: Update systems correctly when paused (add pause functionality)
     while (m_running)
@@ -47,6 +48,40 @@ void Game::setPaused(bool paused)
 }
 
 // TODO: Define systems
+void Game::sMovement()
+{
+
+}
+
+void Game::sUserInput()
+{
+
+}
+
+void Game::sLifespan()
+{
+
+}
+
+void Game::sRender()
+{
+    m_window.clear();
+
+    m_window.draw(m_player->cShape->circle);
+
+    m_window.display();
+}
+
+void Game::sEnemySpawner()
+{
+
+}
+
+void Game::sCollision()
+{
+
+}
+
 
 void Game::spawnPlayer()
 {

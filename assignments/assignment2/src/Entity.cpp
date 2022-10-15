@@ -5,8 +5,7 @@
 #include "../include/Components.h"
 
 Entity::Entity(const size_t id, const std::string& tag)
-    : m_active(true)
-    , m_id(id)
+    : m_id(id)
     , m_tag(tag)
 {
 }
@@ -28,5 +27,5 @@ const size_t Entity::id() const
 
 void Entity::destroy()
 {
-
+    m_active = false;
 }

@@ -48,6 +48,12 @@ bool Vec2::operator!=(const Vec2& rhs) const
     return false;
 }
 
+// dot product
+float Vec2::operator*(const Vec2& rhs) const
+{
+    return x*rhs.x + y*rhs.y;
+}
+
 void Vec2::operator+=(const Vec2& rhs) 
 {
     x += rhs.x;
@@ -70,12 +76,6 @@ void Vec2::operator/=(const float scale)
 {
     x /= scale;
     y /= scale;
-}
-
-// dot product
-float Vec2::operator*(const Vec2& rhs) const
-{
-    return x*rhs.x + y*rhs.y;
 }
 
 Vec2 Vec2::operator+(const Vec2& rhs) const
