@@ -55,7 +55,13 @@ void Game::sMovement()
 
 void Game::sUserInput()
 {
-
+    sf::Event event;
+    while (m_window.pollEvent(event))
+    {
+        // end game
+        if (event.type == sf::Event::Closed)
+            m_running = false;
+    }
 }
 
 void Game::sLifespan()
